@@ -1,42 +1,27 @@
 /* ---------- Tokens ---------- */
+/* 与简历同一套视觉：象牙白底、墨色正文、衬线排版、大量留白。
+   陶土色只用于插画里的一颗种子、链接和列表符号。 */
 :root {
-  --bg: #faf9f5;          /* ivory */
-  --surface: #f0eee6;     /* oat */
-  --ink: #141413;
-  --muted: #5e5d59;
-  --faint: #8a8880;
-  --line: #e3e0d6;
-  --clay: #c96442;        /* accent, text-safe */
-  --clay-soft: #d97757;
-  --seal-ink: #faf9f5;
+  --bg: #faf9f5;     /* 象牙白 */
+  --ink: #141413;    /* 墨 */
+  --muted: #5e5d59;  /* 灰 */
+  --faint: #8a8880;  /* 浅灰 */
+  --line: #d6d2c6;   /* 线 */
+  --clay: #c96442;   /* 陶土 */
 
-  --serif: "Newsreader", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
-  --serif-cn: "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  /* 西文与简历同用 Palatino；中文用思源宋体（Noto Serif SC），加载不到时退回本机宋体。 */
+  --latin: "Palatino Linotype", Palatino, "Book Antiqua", "TeX Gyre Pagella", Georgia;
+  --cjk: "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", SimSun, STSong;
+  --serif: var(--latin), var(--cjk), serif;
 
   --measure: 36rem;
   --wrap: 60rem;
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1f1e1d;
-    --surface: #262624;
-    --ink: #f0eee6;
-    --muted: #b5b2a8;
-    --faint: #8a8880;
-    --line: #3a3936;
-    --clay: #e08a6a;
-    --clay-soft: #c96442;
-    --seal-ink: #f6efe6;
-    color-scheme: dark;
-  }
-}
-
 /* ---------- Base ---------- */
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
@@ -44,57 +29,60 @@ body {
   font-family: var(--serif);
   font-size: 1.0625rem;
   line-height: 1.9;
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-::selection { background: color-mix(in srgb, var(--clay-soft) 28%, transparent); }
+::selection { background: var(--line); }
 
 a { color: inherit; text-decoration: none; }
-a:focus-visible { outline: 2px solid var(--clay); outline-offset: 4px; border-radius: 4px; }
+a:focus-visible { outline: 1px solid var(--clay); outline-offset: 3px; }
 
 .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: 2.5rem; }
 
 .skip-link {
   position: absolute; left: 1rem; top: -4rem; z-index: 10;
-  padding: .5rem 1rem; border-radius: 8px;
-  background: var(--ink); color: var(--bg); font-family: var(--sans); font-size: .875rem;
+  padding: .4rem .9rem;
+  background: var(--ink); color: var(--bg); font-size: .9375rem;
 }
 .skip-link:focus { top: 1rem; }
 
 /* ---------- Header ---------- */
-.site-header {
-  position: sticky; top: 0; z-index: 5;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter: saturate(1.4) blur(10px);
-  -webkit-backdrop-filter: saturate(1.4) blur(10px);
-  border-bottom: 1px solid transparent;
+.header-inner { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding-block: 1.75rem; }
+.site-name { font-size: 1.0625rem; letter-spacing: .02em; }
+nav { display: flex; gap: 1.75rem; font-size: .9375rem; }
+nav a {
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-decoration: underline transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .4em;
+  transition: color .15s, text-decoration-color .15s;
 }
-.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; height: 4.25rem; }
-.site-name { font-size: 1.125rem; font-weight: 500; letter-spacing: -.005em; }
-nav { display: flex; gap: .25rem; font-family: var(--sans); font-size: .875rem; }
-nav a { color: var(--muted); padding: .375rem .75rem; border-radius: 999px; transition: color .15s, background-color .15s; }
-nav a:hover { color: var(--ink); background: var(--surface); }
+nav a:hover { color: var(--ink); text-decoration-color: var(--line); }
 
 /* ---------- Hero ---------- */
+/* 与简历页眉相同：左边姓名，右边插画。 */
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 3rem;
-  padding-top: clamp(4.5rem, 12vw, 8.5rem);
-  padding-bottom: clamp(3.5rem, 8vw, 5.5rem);
+  grid-template-areas: "name art" "intro intro";
+  align-items: center;
+  column-gap: 2rem;
+  padding-top: clamp(3rem, 9vw, 6.5rem);
+  padding-bottom: clamp(3rem, 7vw, 5rem);
 }
+.hero-name { grid-area: name; }
+.hero-intro { grid-area: intro; }
 h1 {
   margin: 0;
-  font-family: var(--serif-cn);
   font-weight: 600;
   font-size: clamp(3.25rem, 9vw, 5.5rem);
   line-height: 1.1;
-  letter-spacing: .04em;
+  letter-spacing: .06em;
+  white-space: nowrap;
 }
 .name-en {
-  margin: .75rem 0 0;
+  margin: .5rem 0 0;
   font-style: italic;
   font-size: clamp(1.375rem, 3vw, 1.75rem);
   line-height: 1.3;
@@ -102,69 +90,78 @@ h1 {
 }
 .lede {
   max-width: 40rem;
-  text-wrap: pretty;
-  margin: 2rem 0 0;
+  margin: 2.25rem 0 0;
   font-size: 1.1875rem;
   line-height: 1.85;
-  color: var(--ink);
+  text-wrap: balance;
 }
-.links { list-style: none; display: flex; flex-wrap: wrap; gap: .75rem; margin: 2.25rem 0 0; padding: 0; }
-.pill {
-  display: inline-flex; align-items: center; gap: .4rem;
-  padding: .5rem 1.05rem .5rem 1.15rem;
-  border: 1px solid var(--line); border-radius: 999px;
-  font-family: var(--sans); font-size: .875rem; color: var(--ink);
-  background: var(--bg);
-  transition: border-color .15s, background-color .15s;
-}
-.pill svg { width: .75rem; height: .75rem; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.pill:hover { border-color: var(--ink); }
+.links { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 1.25rem 0 0; padding: 0; }
+.links svg { width: .65em; height: .65em; margin-left: .2em; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 
-/* The seal: the one bold element on the page */
-.seal {
-  --s: clamp(6.5rem, 14vw, 9rem);
-  width: var(--s); height: var(--s);
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-  place-items: center;
-  padding: calc(var(--s) * .07);
-  margin-top: .35rem;
-  margin-right: .5rem;
-  background: var(--clay-soft);
-  color: var(--seal-ink);
-  border-radius: 14% 11% 13% 10% / 10% 13% 11% 14%;
-  font-family: var(--serif-cn);
-  font-weight: 700;
-  font-size: calc(var(--s) * .33);
-  line-height: 1;
-  transform: rotate(-3deg);
-  box-shadow: inset 0 0 0 calc(var(--s) * .035) var(--clay-soft), inset 0 0 0 calc(var(--s) * .05) color-mix(in srgb, var(--seal-ink) 75%, transparent);
-  animation: stamp .7s cubic-bezier(.2, .9, .25, 1.15) .25s both;
+/* 链接：陶土色文字加细下划线。 */
+.links a, .body a {
+  color: var(--clay);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--clay) 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+  transition: text-decoration-color .15s;
 }
-@keyframes stamp {
-  from { opacity: 0; transform: rotate(-3deg) scale(1.18); }
-  to   { opacity: 1; transform: rotate(-3deg) scale(1); }
+.links a:hover, .body a:hover { text-decoration-color: currentColor; }
+
+/* 插画：吹蒲公英的小人。墨色单线，只有一颗种子用陶土色；种子会飘出画框，进入左边的留白。
+   进场时线条按 --d 的先后“画”出来，之后人随呼吸微微起伏、蒲公英轻轻摇。 */
+.dandelion {
+  grid-area: art;
+  justify-self: end;
+  width: clamp(6.75rem, 20vw, 12.5rem);
+  margin: 0; padding: 0; border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
 }
+.dandelion svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dandelion:focus-visible { outline: 1px dashed var(--clay); outline-offset: 6px; }
+.dandelion .ln {
+  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: draw .9s ease-in-out var(--d, 0s) forwards;
+}
+.dandelion .ground { stroke: var(--line); }
+.dandelion .core { fill: currentColor; animation: appear .4s ease 1.2s both; }
+.dandelion .seed { color: var(--ink); animation: appear .5s ease calc(1.25s + var(--i) * 35ms) both; }
+.dandelion .seed.clay { color: var(--clay); }
+.dandelion .free { animation: none; }
+.dandelion .flight { pointer-events: none; }
+.dandelion .breath { fill: none; stroke: var(--faint); stroke-width: 1.1; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.dandelion .upper, .dandelion .lean { transform-box: view-box; transform-origin: 94px 96px; }
+.dandelion .upper { animation: breathe 4.6s ease-in-out 2s infinite; }
+.dandelion .stalk { transform-box: view-box; transform-origin: 68px 52px; animation: sway 3.8s ease-in-out infinite; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes appear { from { opacity: 0; } }
+@keyframes breathe { 50% { transform: translateY(-.6px) rotate(-.5deg); } }
+@keyframes sway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1.2deg); } }
 
 /* ---------- Content rows ---------- */
-.content { padding-bottom: 5rem; }
+.content { padding-bottom: 4rem; }
 .row {
   display: grid;
-  grid-template-columns: 12rem minmax(0, var(--measure));
+  grid-template-columns: 11rem minmax(0, var(--measure));
   gap: 2.5rem;
-  padding: 2.75rem 0;
+  padding: 2.5rem 0;
   border-top: 1px solid var(--line);
 }
 h2 {
   margin: 0;
-  font-family: var(--serif-cn);
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.6;
-  letter-spacing: .02em;
+  letter-spacing: .1em;
 }
 h2 span {
   display: block;
-  font-family: "Newsreader", Georgia, serif;
   font-style: italic;
   font-weight: 400;
   font-size: 1rem;
@@ -174,20 +171,14 @@ h2 span {
 .body > :first-child { margin-top: 0; }
 .body p { margin: 0 0 .75rem; text-wrap: pretty; }
 .body p:last-child { margin-bottom: 0; }
+.body ul { margin: 0 0 .75rem; padding-left: 1.1em; }
+.body li::marker { color: var(--clay); }
 
 .entry + .entry { margin-top: 1.75rem; }
 h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
 .entry-en { font-style: italic; color: var(--muted); line-height: 1.5; margin-bottom: .5rem !important; }
-.meta { color: var(--muted); font-size: 1rem; }
-.entry-links { display: flex; gap: 1rem; font-family: var(--sans); font-size: .875rem; }
-.entry-links a, .body a:not(.pill) {
-  color: var(--clay);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--clay) 40%, transparent);
-  text-underline-offset: .22em;
-  text-decoration-thickness: 1px;
-}
-.entry-links a:hover, .body a:not(.pill):hover { text-decoration-color: currentColor; }
+.meta { color: var(--muted); }
+.entry-links { display: flex; gap: 1.25rem; font-size: .9375rem; }
 
 .pending { color: var(--faint); }
 .pending::before { content: ""; display: inline-block; width: 1.25rem; height: 1px; margin-right: .75rem; vertical-align: middle; background: var(--line); }
@@ -197,34 +188,38 @@ h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   padding-top: 1.75rem; padding-bottom: 2.5rem;
   border-top: 1px solid var(--line);
-  font-family: var(--sans); font-size: .8125rem; color: var(--faint);
+  font-size: .875rem; color: var(--faint);
 }
+.site-footer a { transition: color .15s; }
 .site-footer a:hover { color: var(--ink); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
   .wrap { padding-inline: 1.25rem; }
-  .header-inner { height: 3.75rem; }
-  nav { gap: 0; }
-  nav a { padding: .375rem .55rem; }
-  .hero { grid-template-columns: 1fr; gap: 2rem; padding-top: 3.5rem; }
-  .seal { order: -1; --s: 5.5rem; }
+  .header-inner { padding-block: 1.25rem; }
+  nav { gap: 1.1rem; }
+  .hero { column-gap: 1.25rem; padding-top: 2.5rem; }
+  .lede { margin-top: 1.75rem; }
   .row { grid-template-columns: 1fr; gap: .75rem; padding: 2.25rem 0; }
   h2 span { display: inline; margin-left: .6rem; }
 }
 @media (max-width: 380px) {
-  .site-name { font-size: 1rem; }
-  nav a { padding: .3rem .4rem; font-size: .8125rem; }
+  h1 { font-size: 2.75rem; }
+  .dandelion { width: 6.25rem; }
+  nav { gap: .8rem; }
 }
 
+/* 系统要求减少动态效果时：直接显示画好的静态画面，点击只让种子淡出再长回来。 */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .seal { animation: none; }
+  .dandelion .ln, .dandelion .core, .dandelion .seed, .dandelion .upper, .dandelion .stalk { animation: none; }
+  .dandelion .ln { stroke-dasharray: none; }
 }
 
 @media print {
   .site-header, .skip-link, .links, .site-footer a { display: none; }
-  body { background: #fff; color: #000; }
+  body { background: #fff; }
   .hero { padding-top: 0; }
+  .dandelion .ln { animation: none; stroke-dasharray: none; }
   .row { break-inside: avoid; }
 }
