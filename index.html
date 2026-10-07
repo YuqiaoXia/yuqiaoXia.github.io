@@ -9,14 +9,40 @@
     <meta name="theme-color" content="#faf9f5">
     <title>夏渝乔 | Yuqiao Xia</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23faf9f5'/%3E%3Cpath d='M32 48V25M32 25L19 13M32 25L27 9M32 25L37 9M32 25L45 13' fill='none' stroke='%23141413' stroke-width='3.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='50' r='4.2' fill='%23c96442'/%3E%3C/svg%3E">
-    <!-- 中文字体异步加载：连不上 Google Fonts 时（如中国大陆）不阻塞页面，直接用本机宋体。 -->
+    <!-- 中文字体异步加载：Google Fonts 慢或连不上时不阻塞页面，先用本机宋体。 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="styles.css">
+    <script>
+      // 入场动画每个会话只播放一次；网址加 ?intro 可以重看；系统要求减少动态效果时不播放。
+      // 万一 main.js 没加载出来，8 秒后也会自动揭开主页。
+      try {
+        const force = /[?&]intro\b/.test(location.search);
+        if (force || (!sessionStorage.getItem('intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+          document.documentElement.classList.add('intro');
+          setTimeout(() => document.documentElement.classList.remove('intro'), 8000);
+        }
+      } catch (e) {}
+    </script>
+    <script src="main.js" defer></script>
   </head>
   <body>
+    <!-- 入场动画（逐帧手绘 / 线条沸腾），由 main.js 驱动：画面按每秒 12 帧逐帧跳动，线条用变宽笔刷画出并持续轻微抖动。
+         点击、按键或滚动都可以跳过；揭开主页后，右上角的种子飘落下来。 -->
+    <div class="intro-screen">
+      <svg class="intro-art" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+        <g class="ink"><circle class="core" cx="204" cy="112" r="3.2" style="opacity:0"/></g>
+        <g class="seeds"></g>
+      </svg>
+      <p class="intro-name" aria-hidden="true">
+        <span>夏渝乔</span><em lang="en">Yuqiao Xia</em>
+        <svg class="intro-line" viewBox="0 0 300 20" focusable="false"><g class="ink"></g></svg>
+      </p>
+      <button class="intro-skip" type="button">跳过</button>
+    </div>
+
     <a class="skip-link" href="#main">跳转到正文</a>
 
     <header class="site-header">
@@ -38,48 +64,10 @@
           <p class="name-en" lang="en">Yuqiao Xia</p>
         </div>
 
-        <!-- 插画：吹蒲公英的小人。进入页面时吹一次，点击再吹；简历页眉用的是同一组路径的静态定格。
-             data-boil 的线条会轻微抖动；data-stay 的种子吹不走；陶土色只给一颗种子。 -->
-        <button class="dandelion" type="button" aria-label="吹一口蒲公英" title="点一下，再吹一次">
-          <svg viewBox="0 0 140 110" aria-hidden="true" focusable="false">
-            <defs>
-              <g id="seed" fill="none" stroke="currentColor" stroke-width=".8" stroke-linecap="round">
-                <path d="M0 -2.4V-10.4M0 -10.4L-2.3 -12.9M0 -10.4V-13.6M0 -10.4L2.3 -12.9"/>
-                <circle cy="-2.4" r=".55" fill="currentColor" stroke="none"/>
-              </g>
-            </defs>
-            <path class="ln ground" data-boil pathLength="1" d="M40 100C65 98 100 101 136 99"/>
-            <path class="ln" data-boil pathLength="1" style="--d:.1s" d="M94 96C84 84 74 74 64 74C58 82 55 90 52 98"/>
-            <g class="upper">
-              <g class="lean">
-                <path class="ln" data-boil pathLength="1" style="--d:.25s" d="M92 49C97 62 98 78 94 96"/>
-                <path class="ln" data-boil pathLength="1" style="--d:.4s" d="M79 32C80 23 89 19 96 23C103 27 104 40 97 46C91 51 81 48 78 41"/>
-                <path class="ln" data-boil pathLength="1" style="--d:.6s" d="M91 20C92 15 96 13 100 15"/>
-                <path class="breath" pathLength="1" d="M75 36Q71 33 68 29M73 41Q68 38 64 33"/>
-              </g>
-              <path class="ln" data-boil pathLength="1" style="--d:.55s" d="M91 57C82 64 73 61 68 52"/>
-              <g class="stalk">
-                <path class="ln" data-boil pathLength="1" style="--d:.7s" d="M68 52C64 44 60 34 56 24"/>
-                <circle class="core" cx="56" cy="22" r="1.4"/>
-                <g class="puff">
-                  <use href="#seed" class="seed" data-a="0" style="--i:0" transform="translate(56 22) rotate(0)"/>
-                  <use href="#seed" class="seed" data-a="25.7" style="--i:1" transform="translate(56 22) rotate(25.7)"/>
-                  <use href="#seed" class="seed" data-a="51.4" style="--i:2" transform="translate(56 22) rotate(51.4)"/>
-                  <use href="#seed" class="seed" data-a="77.1" data-stay style="--i:3" transform="translate(56 22) rotate(77.1)"/>
-                  <use href="#seed" class="seed" data-a="102.9" data-stay style="--i:4" transform="translate(56 22) rotate(102.9)"/>
-                  <use href="#seed" class="seed" data-a="128.6" data-stay style="--i:5" transform="translate(56 22) rotate(128.6)"/>
-                  <use href="#seed" class="seed" data-a="180" data-stay style="--i:6" transform="translate(56 22) rotate(180)"/>
-                  <use href="#seed" class="seed" data-a="205.7" style="--i:7" transform="translate(56 22) rotate(205.7)"/>
-                  <use href="#seed" class="seed" data-a="231.4" style="--i:8" transform="translate(56 22) rotate(231.4)"/>
-                  <use href="#seed" class="seed" data-a="257.1" style="--i:9" transform="translate(56 22) rotate(257.1)"/>
-                  <use href="#seed" class="seed" data-a="282.9" style="--i:10" transform="translate(56 22) rotate(282.9)"/>
-                  <use href="#seed" class="seed clay" data-a="308.6" style="--i:11" transform="translate(56 22) rotate(308.6)"/>
-                  <use href="#seed" class="seed" data-a="334.3" style="--i:12" transform="translate(56 22) rotate(334.3)"/>
-                </g>
-              </g>
-            </g>
-            <g class="flight"></g>
-          </svg>
+        <!-- 右上角：开场被吹走的那颗陶土色种子，揭开主页后飘落在这里。由 main.js 用笔刷画出，
+             点一下会被吹走，过一会儿再飘来一颗。 -->
+        <button class="landing-seed" type="button" aria-label="吹走这颗种子" title="点一下，吹走它">
+          <svg viewBox="0 0 120 160" aria-hidden="true" focusable="false"><g class="seed-body"></g></svg>
         </button>
 
         <div class="hero-intro">
@@ -159,110 +147,5 @@
         <a href="#top">返回顶部</a>
       </div>
     </footer>
-
-    <script>
-      // 蒲公英：进入页面时吹一次，点击再吹。线条循环切换 3 个轻微错位的版本（约 7 帧/秒），像逐帧手绘的动画。
-      (() => {
-        const btn = document.querySelector('.dandelion');
-        if (!btn) return;
-        const svg = btn.querySelector('svg');
-        const flight = svg.querySelector('.flight');
-        const lean = svg.querySelector('.lean');
-        const breath = svg.querySelector('.breath');
-        const flyers = [...svg.querySelectorAll('.puff .seed:not([data-stay])')];
-        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const rand = (a, b) => a + Math.random() * (b - a);
-        let busy = false;
-
-        const regrow = () => {
-          flyers.forEach((s, i) => s.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 600, delay: i * 70, fill: 'forwards' }));
-          setTimeout(() => { busy = false; }, flyers.length * 70 + 600);
-        };
-
-        const blow = () => {
-          if (busy) return;
-          busy = true;
-          if (still) {
-            flyers.forEach(s => s.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, fill: 'forwards' }));
-            setTimeout(regrow, 1500);
-            return;
-          }
-          // 先吸气后仰，再前倾吹气；幅度控制在 1.5° 以内。
-          lean.animate([
-            { transform: 'rotate(0deg)' },
-            { transform: 'rotate(1.3deg)', offset: .4 },
-            { transform: 'rotate(-1.4deg)', offset: .62 },
-            { transform: 'rotate(0deg)' }
-          ], { duration: 1600, easing: 'ease-in-out' });
-          breath.animate([
-            { strokeDashoffset: 1, opacity: .9 },
-            { strokeDashoffset: 0, opacity: .9, offset: .45 },
-            { strokeDashoffset: 0, opacity: 0 }
-          ], { duration: 900, delay: 720 });
-
-          // 种子先顺着自己的方向弹出，再随风往左上飘、慢慢转正变淡；远近高低快慢各不相同，陶土色那颗飘得最远。
-          // 距离按屏幕像素换算：小屏上插画缩小了，SVG 单位要相应放大，种子才散得开。
-          const scale = svg.getBoundingClientRect().width / 140 || 1.43;
-          const reach = Math.min(1, Math.max(.55, innerWidth / 1000)) * 1.43 / scale;
-          flyers.forEach((s, j) => {
-            const a = +s.dataset.a, turn = a > 180 ? a - 360 : a, r = a * Math.PI / 180;
-            const clay = s.classList.contains('clay');
-            const far = (clay ? 1.25 : rand(.55, 1.05)) * reach, lift = rand(.4, 1.3) * reach;
-            const at = (x, y, deg) => `translate(${x}px, ${y}px) rotate(${deg}deg)`;
-            const x1 = 56 + 10 * Math.sin(r) - 6, y1 = 22 - 10 * Math.cos(r) - 3;
-            const x2 = 56 - rand(40, 90) * far, y2 = 22 - rand(-6, 30) * lift;
-            const x3 = 56 - rand(120, 190) * far, y3 = y2 - rand(0, 30) * lift + rand(-6, 6);
-            const x4 = 56 - rand(200, 300) * far, y4 = y3 - rand(10, 50) * lift;
-            const seed = s.cloneNode(true);
-            seed.removeAttribute('style');
-            seed.classList.add('free');
-            flight.append(seed);
-            const delay = 760 + j * 90 + rand(0, 160);
-            seed.animate([
-              { transform: at(56, 22, turn), opacity: 1 },
-              { transform: at(x1, y1, turn * .6), opacity: 1, offset: .1 },
-              { transform: at(x2, y2, rand(-25, 25)), opacity: 1, offset: .4 },
-              { transform: at(x3, y3, rand(-15, 15)), opacity: 1, offset: .72 },
-              { transform: at(x4, y4, rand(-10, 10)), opacity: 0 }
-            ], { duration: clay ? 9000 : rand(5000, 8000), delay, easing: 'cubic-bezier(.2, .6, .35, 1)', fill: 'both' })
-              .onfinish = () => seed.remove();
-            s.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 80, delay, fill: 'forwards' });
-          });
-          setTimeout(regrow, 6500);
-        };
-
-        btn.addEventListener('click', blow);
-        if (still) return;
-
-        // 线条抖动：同一个坐标点在不同线条里偏移相同，接头处不会裂开。
-        const noise = (x, y, f, k) => {
-          const s = Math.sin(x * 12.99 + y * 78.23 + f * 37.72 + k * 11.1) * 43758.55;
-          return (s - Math.floor(s)) * 2 - 1;
-        };
-        const lines = [...svg.querySelectorAll('[data-boil]')].map(p => {
-          const d = p.getAttribute('d'), n = d.match(/-?[\d.]+/g).map(Number);
-          const frames = [0, 1, 2].map(f => {
-            let i = 0;
-            return d.replace(/-?[\d.]+/g, () => {
-              const k = i % 2, x = n[i - k], y = n[i - k + 1];
-              return +(n[i++] + .5 * noise(x, y, f, k)).toFixed(2);
-            });
-          });
-          return { p, frames };
-        });
-        let frame = 0, last = 0, onScreen = true;
-        new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(btn);
-        const tick = t => {
-          if (onScreen && t - last > 140) {
-            last = t;
-            frame = (frame + 1) % 3;
-            lines.forEach(l => l.p.setAttribute('d', l.frames[frame]));
-          }
-          requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        setTimeout(blow, 2300);
-      })();
-    </script>
   </body>
 </html>
