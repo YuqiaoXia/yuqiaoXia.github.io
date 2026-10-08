@@ -47,9 +47,9 @@ a:focus-visible { outline: 1px solid var(--clay); outline-offset: 3px; }
 .skip-link:focus { top: 1rem; }
 
 /* ---------- Header ---------- */
-.header-inner { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding-block: 1.75rem; }
+.header-inner { display: flex; align-items: baseline; gap: 1.5rem; padding-block: 1.75rem; }
 .site-name { font-size: 1.0625rem; letter-spacing: .02em; }
-nav { display: flex; gap: 1.75rem; font-size: .9375rem; }
+nav { display: flex; gap: 1.75rem; margin-left: auto; font-size: .9375rem; }
 nav a {
   color: var(--muted);
   letter-spacing: .08em;
@@ -59,6 +59,19 @@ nav a {
   transition: color .15s, text-decoration-color .15s;
 }
 nav a:hover { color: var(--ink); text-decoration-color: var(--line); }
+
+/* 中英切换：当前语言用墨色，另一种用浅灰，和导航之间用一条细竖线隔开。 */
+.lang-toggle {
+  display: inline-flex; align-items: baseline; gap: .35rem;
+  padding: 0 0 0 1.5rem; border: 0; border-left: 1px solid var(--line);
+  background: none; cursor: pointer;
+  font: inherit; font-size: .875rem; letter-spacing: .04em; color: var(--faint);
+}
+.lang-toggle .lang-sep { color: var(--line); }
+.lang-toggle span { transition: color .15s; }
+.lang-toggle:hover span:not(.lang-sep) { color: var(--muted); }
+html[lang="zh-CN"] .lang-zh, html[lang="en"] .lang-en { color: var(--ink) !important; }
+.lang-toggle:focus-visible { outline: 1px solid var(--clay); outline-offset: 4px; }
 
 /* ---------- Hero ---------- */
 /* 左边姓名，右边一颗飘落的种子。 */
@@ -140,7 +153,7 @@ h2 {
   line-height: 1.6;
   letter-spacing: .1em;
 }
-h2 span {
+h2 .alt {
   display: block;
   font-style: italic;
   font-weight: 400;
@@ -210,7 +223,23 @@ html.intro .intro-screen, .intro-screen.leaving {
 .intro-screen.leaving::before { opacity: 0; transition: opacity .33s steps(4) .25s; }
 .intro-screen.skipped .seeds { opacity: 0; transition: opacity .25s; }
 
+/* ---------- 英文页面 ---------- */
+/* 大标题改用 Palatino 常规字重、收紧字距；副标题（.alt）换成中文，不用斜体。 */
+html.i18n-pending body { visibility: hidden; }
+html[lang="en"] h1 { font-weight: 400; font-size: clamp(2.6rem, 8vw, 5rem); letter-spacing: .01em; }
+html[lang="en"] h2, html[lang="en"] nav a { letter-spacing: .02em; }
+html[lang="en"] .alt { font-style: normal; letter-spacing: .08em; }
+html[lang="en"] .intro-name span { font-weight: 400; letter-spacing: .03em; }
+html[lang="en"] .intro-name em { letter-spacing: .2em; }
+
 /* ---------- Responsive ---------- */
+/* 窄屏：页头分两行，第一行是名字和中英切换，第二行是导航。 */
+@media (max-width: 600px) {
+  .header-inner { flex-wrap: wrap; row-gap: .75rem; }
+  .site-name { margin-right: auto; }
+  .lang-toggle { border-left: 0; padding-left: 0; }
+  nav { order: 3; width: 100%; margin-left: 0; }
+}
 @media (max-width: 760px) {
   .wrap { padding-inline: 1.25rem; }
   .header-inner { padding-block: 1.25rem; }
@@ -218,10 +247,11 @@ html.intro .intro-screen, .intro-screen.leaving {
   .hero { column-gap: 1.25rem; padding-top: 2.5rem; }
   .lede { margin-top: 1.75rem; }
   .row { grid-template-columns: 1fr; gap: .75rem; padding: 2.25rem 0; }
-  h2 span { display: inline; margin-left: .6rem; }
+  h2 .alt { display: inline; margin-left: .6rem; }
 }
 @media (max-width: 380px) {
   h1 { font-size: 2.75rem; }
+  html[lang="en"] h1 { font-size: 2.2rem; }
   nav { gap: .8rem; }
 }
 

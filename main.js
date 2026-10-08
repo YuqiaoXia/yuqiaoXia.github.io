@@ -1,4 +1,4 @@
-// 主页动效：入场动画（逐帧手绘 / 线条沸腾）和首屏右上角那颗飘落的种子。
+// 主页脚本：中英切换、入场动画（逐帧手绘 / 线条沸腾）和首屏右上角那颗飘落的种子。
 // 两处共用一个笔刷：沿中心线取样，按“起笔细、行笔粗、收笔尖”向两侧偏移，拼成填充多边形；
 // 每条线预先算 3 组轻微错位的版本，按每秒 12 帧（一拍二）轮换，就是线条沸腾。
 (() => {
@@ -16,6 +16,35 @@
     for (const k in attrs) e.setAttribute(k, attrs[k]);
     parent.append(e);
     return e;
+  };
+
+  // ---------- 中英切换 ----------
+  // 中文写在元素里，英文写在 data-en（文字）、data-en-label（aria-label）、data-en-title（title）、
+  // data-en-content（meta）里；第一次切换前把中文原文存进对应的 data-zh*。.alt 是另一种语言的副标题。
+  const i18n = () => {
+    const swaps = [['[data-en]', null, 'en', 'zh'], ['[data-en-label]', 'aria-label', 'enLabel', 'zhLabel'],
+      ['[data-en-title]', 'title', 'enTitle', 'zhTitle'], ['[data-en-content]', 'content', 'enContent', 'zhContent']];
+    const apply = lang => {
+      const en = lang === 'en';
+      root.lang = en ? 'en' : 'zh-CN';
+      for (const [selector, attr, enKey, zhKey] of swaps) {
+        for (const el of document.querySelectorAll(selector)) {
+          if (!(zhKey in el.dataset)) el.dataset[zhKey] = attr ? el.getAttribute(attr) || '' : el.textContent;
+          const text = el.dataset[en ? enKey : zhKey];
+          if (attr) el.setAttribute(attr, text);
+          else el.textContent = text;
+        }
+      }
+      for (const el of document.querySelectorAll('.alt')) el.lang = en ? 'zh-CN' : 'en';
+      root.classList.remove('i18n-pending');
+    };
+    apply(root.lang === 'en' ? 'en' : 'zh');
+    const toggle = document.querySelector('.lang-toggle');
+    if (toggle) toggle.addEventListener('click', () => {
+      const next = root.lang === 'en' ? 'zh' : 'en';
+      apply(next);
+      try { localStorage.setItem('lang', next); } catch (e) {}
+    });
   };
 
   // ---------- 笔刷 ----------
@@ -225,6 +254,7 @@
     };
   };
 
+  i18n();
   const startSeed = landingSeed();
   intro(played => startSeed(played ? 600 : 300));
 })();

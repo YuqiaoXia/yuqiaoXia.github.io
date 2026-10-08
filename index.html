@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="夏渝乔的个人主页。西南大学，计算机科学与技术。">
+    <meta name="description" content="夏渝乔的个人主页。西南大学，计算机科学与技术。" data-en-content="Personal homepage of Yuqiao Xia, a Computer Science and Technology student at Southwest University.">
     <meta name="author" content="夏渝乔">
     <meta name="color-scheme" content="light">
     <meta name="theme-color" content="#faf9f5">
-    <title>夏渝乔 | Yuqiao Xia</title>
+    <title data-en="Yuqiao Xia | 夏渝乔">夏渝乔 | Yuqiao Xia</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23faf9f5'/%3E%3Cpath d='M32 48V25M32 25L19 13M32 25L27 9M32 25L37 9M32 25L45 13' fill='none' stroke='%23141413' stroke-width='3.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='50' r='4.2' fill='%23c96442'/%3E%3C/svg%3E">
     <!-- 中文字体异步加载：Google Fonts 慢或连不上时不阻塞页面，先用本机宋体。 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,19 +16,31 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="styles.css">
     <script>
+      // 语言：网址 ?lang=en 或 ?lang=zh > 上次手动切换的选择 > 浏览器语言（中文浏览器显示中文，其余显示英文）。
       // 入场动画每个会话只播放一次；网址加 ?intro 可以重看；系统要求减少动态效果时不播放。
-      // 万一 main.js 没加载出来，8 秒后也会自动揭开主页。
-      try {
-        const force = /[?&]intro\b/.test(location.search);
-        if (force || (!sessionStorage.getItem('intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-          document.documentElement.classList.add('intro');
-          setTimeout(() => document.documentElement.classList.remove('intro'), 8000);
+      // 万一 main.js 没加载出来：2 秒后照常显示页面，8 秒后自动揭开主页。
+      (() => {
+        const html = document.documentElement, q = new URLSearchParams(location.search);
+        const read = (store, key) => { try { return store.getItem(key); } catch (e) { return null; } };
+        const lang = /^(en|zh)$/.test(q.get('lang')) ? q.get('lang')
+          : read(localStorage, 'lang') || (/^zh/i.test(navigator.language) ? 'zh' : 'en');
+        if (lang === 'en') {
+          html.lang = 'en';
+          html.classList.add('i18n-pending');
+          setTimeout(() => html.classList.remove('i18n-pending'), 2000);
         }
-      } catch (e) {}
+        if (q.has('intro') || (!read(sessionStorage, 'intro-seen') && !matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+          html.classList.add('intro');
+          setTimeout(() => html.classList.remove('intro'), 8000);
+        }
+      })();
     </script>
     <script src="main.js" defer></script>
   </head>
   <body>
+    <!-- 中英双语：中文写在元素里，英文写在 data-en（文字）、data-en-label（aria-label）、data-en-title（title）里，
+         由 main.js 切换。class="alt" 是另一种语言的副标题：中文页面显示英文，英文页面显示中文。 -->
+
     <!-- 入场动画（逐帧手绘 / 线条沸腾），由 main.js 驱动：画面按每秒 12 帧逐帧跳动，线条用变宽笔刷画出并持续轻微抖动。
          点击、按键或滚动都可以跳过；揭开主页后，右上角的种子飘落下来。 -->
     <div class="intro-screen">
@@ -37,45 +49,50 @@
         <g class="seeds"></g>
       </svg>
       <p class="intro-name" aria-hidden="true">
-        <span>夏渝乔</span><em lang="en">Yuqiao Xia</em>
+        <span data-en="Yuqiao Xia">夏渝乔</span><em class="alt" lang="en" data-en="夏渝乔">Yuqiao Xia</em>
         <svg class="intro-line" viewBox="0 0 300 20" focusable="false"><g class="ink"></g></svg>
       </p>
-      <button class="intro-skip" type="button">跳过</button>
+      <button class="intro-skip" type="button" data-en="Skip">跳过</button>
     </div>
 
-    <a class="skip-link" href="#main">跳转到正文</a>
+    <a class="skip-link" href="#main" data-en="Skip to content">跳转到正文</a>
 
     <header class="site-header">
       <div class="wrap header-inner">
         <a class="site-name" href="#top" lang="en">Yuqiao Xia</a>
-        <nav aria-label="主导航">
-          <a href="#about">关于</a>
-          <a href="#research">研究</a>
-          <a href="#publications">论文</a>
-          <a href="#projects">项目</a>
+        <nav aria-label="主导航" data-en-label="Main navigation">
+          <a href="#about" data-en="About">关于</a>
+          <a href="#research" data-en="Research">研究</a>
+          <a href="#publications" data-en="Publications">论文</a>
+          <a href="#projects" data-en="Projects">项目</a>
         </nav>
+        <button class="lang-toggle" type="button" aria-label="切换到英文" data-en-label="Switch to Chinese"
+                title="切换到英文" data-en-title="Switch to Chinese">
+          <span class="lang-zh" lang="zh-CN">中</span><span class="lang-sep" aria-hidden="true">/</span><span class="lang-en" lang="en">EN</span>
+        </button>
       </div>
     </header>
 
     <main id="main">
       <section class="hero wrap" id="top" aria-labelledby="name">
         <div class="hero-name">
-          <h1 id="name">夏渝乔</h1>
-          <p class="name-en" lang="en">Yuqiao Xia</p>
+          <h1 id="name" data-en="Yuqiao Xia">夏渝乔</h1>
+          <p class="name-en alt" lang="en" data-en="夏渝乔">Yuqiao Xia</p>
         </div>
 
         <!-- 右上角：开场被吹走的那颗陶土色种子，揭开主页后飘落在这里。由 main.js 用笔刷画出，
              点一下会被吹走，过一会儿再飘来一颗。 -->
-        <button class="landing-seed" type="button" aria-label="吹走这颗种子" title="点一下，吹走它">
+        <button class="landing-seed" type="button" aria-label="吹走这颗种子" data-en-label="Blow the seed away"
+                title="点一下，吹走它" data-en-title="Click to blow it away">
           <svg viewBox="0 0 120 160" aria-hidden="true" focusable="false"><g class="seed-body"></g></svg>
         </button>
 
         <div class="hero-intro">
-          <p class="lede">西南大学计算机科学与技术专业学生。这里记录我的学习、研究与项目实践。</p>
-          <ul class="links" aria-label="个人链接">
+          <p class="lede" data-en="Computer Science and Technology student at Southwest University. Here I document my studies, research and projects.">西南大学计算机科学与技术专业学生。这里记录我的学习、研究与项目实践。</p>
+          <ul class="links" aria-label="个人链接" data-en-label="Personal links">
             <li><a href="https://github.com/YuqiaoXia">GitHub<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"/></svg></a></li>
             <!-- 补充真实邮箱后取消注释：
-            <li><a href="mailto:you@example.com">邮箱</a></li>
+            <li><a href="mailto:you@example.com" data-en="Email">邮箱</a></li>
             -->
           </ul>
         </div>
@@ -83,57 +100,57 @@
 
       <div class="wrap content">
         <section class="row" id="about" aria-labelledby="about-title">
-          <h2 id="about-title">关于<span lang="en">About</span></h2>
+          <h2 id="about-title"><span data-en="About">关于</span><span class="alt" lang="en" data-en="关于">About</span></h2>
           <div class="body">
-            <p>你好，我是夏渝乔，就读于西南大学计算机科学与技术专业。</p>
-            <p>这个页面会持续更新我的研究方向、论文和项目。</p>
+            <p data-en="Hi, I'm Yuqiao Xia, a Computer Science and Technology student at Southwest University.">你好，我是夏渝乔，就读于西南大学计算机科学与技术专业。</p>
+            <p data-en="I'll keep updating this page with my research interests, publications and projects.">这个页面会持续更新我的研究方向、论文和项目。</p>
           </div>
         </section>
 
         <section class="row" id="education" aria-labelledby="education-title">
-          <h2 id="education-title">教育<span lang="en">Education</span></h2>
+          <h2 id="education-title"><span data-en="Education">教育</span><span class="alt" lang="en" data-en="教育">Education</span></h2>
           <div class="body">
             <article class="entry">
-              <h3>西南大学</h3>
-              <p class="entry-en" lang="en">Southwest University</p>
-              <p>计算机科学与技术</p>
-              <!-- 补充学位与年份，例如：<p class="meta">本科，20XX 年至今</p> -->
+              <h3 data-en="Southwest University">西南大学</h3>
+              <p class="entry-en alt" lang="en" data-en="西南大学">Southwest University</p>
+              <p data-en="Computer Science and Technology">计算机科学与技术</p>
+              <!-- 补充学位与年份，例如：<p class="meta" data-en="B.Eng., 20XX – present">本科，20XX 年至今</p> -->
             </article>
           </div>
         </section>
 
         <section class="row" id="research" aria-labelledby="research-title">
-          <h2 id="research-title">研究方向<span lang="en">Research</span></h2>
+          <h2 id="research-title"><span data-en="Research">研究方向</span><span class="alt" lang="en" data-en="研究方向">Research</span></h2>
           <div class="body">
-            <p class="pending">正在整理，稍后更新。</p>
-            <!-- 用真实研究兴趣替换上一行，可写方向名称与一两句说明。 -->
+            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
+            <!-- 用真实研究兴趣替换上一行，可写方向名称与一两句说明；英文写在 data-en 里。 -->
           </div>
         </section>
 
         <section class="row" id="publications" aria-labelledby="publications-title">
-          <h2 id="publications-title">论文<span lang="en">Publications</span></h2>
+          <h2 id="publications-title"><span data-en="Publications">论文</span><span class="alt" lang="en" data-en="论文">Publications</span></h2>
           <div class="body">
-            <p class="pending">正在整理，稍后更新。</p>
+            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
             <!-- 论文格式示例：
             <article class="entry">
               <h3>论文标题</h3>
               <p class="meta"><strong>Yuqiao Xia</strong>, 合作者</p>
-              <p class="meta">会议或期刊，年份</p>
-              <p class="entry-links"><a href="#">论文</a><a href="#">代码</a></p>
+              <p class="meta" data-en="Venue, year">会议或期刊，年份</p>
+              <p class="entry-links"><a href="#" data-en="Paper">论文</a><a href="#" data-en="Code">代码</a></p>
             </article>
             -->
           </div>
         </section>
 
         <section class="row" id="projects" aria-labelledby="projects-title">
-          <h2 id="projects-title">项目<span lang="en">Projects</span></h2>
+          <h2 id="projects-title"><span data-en="Projects">项目</span><span class="alt" lang="en" data-en="项目">Projects</span></h2>
           <div class="body">
-            <p class="pending">正在整理，稍后更新。</p>
+            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
             <!-- 项目格式示例：
             <article class="entry">
-              <h3>项目名称</h3>
-              <p>解决了什么问题，我负责哪部分。</p>
-              <p class="entry-links"><a href="#">代码</a></p>
+              <h3 data-en="Project name">项目名称</h3>
+              <p data-en="What problem it solves and which part I built.">解决了什么问题，我负责哪部分。</p>
+              <p class="entry-links"><a href="#" data-en="Code">代码</a></p>
             </article>
             -->
           </div>
@@ -143,8 +160,8 @@
 
     <footer class="wrap">
       <div class="site-footer">
-        <span>© 2026 夏渝乔</span>
-        <a href="#top">返回顶部</a>
+        <span data-en="© 2026 Yuqiao Xia">© 2026 夏渝乔</span>
+        <a href="#top" data-en="Back to top">返回顶部</a>
       </div>
     </footer>
   </body>
