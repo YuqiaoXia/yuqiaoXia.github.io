@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="夏渝乔的个人主页。西南大学，计算机科学与技术。" data-en-content="Personal homepage of Yuqiao Xia, a Computer Science and Technology student at Southwest University.">
+    <meta name="description" content="Personal homepage of Yuqiao Xia (夏渝乔), a Computer Science and Technology student at Southwest University.">
     <meta name="author" content="夏渝乔">
     <meta name="color-scheme" content="light">
     <meta name="theme-color" content="#faf9f5">
-    <title data-en="Yuqiao Xia | 夏渝乔">夏渝乔 | Yuqiao Xia</title>
+    <title>Yuqiao Xia | 夏渝乔</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23faf9f5'/%3E%3Cpath d='M32 48V25M32 25L19 13M32 25L27 9M32 25L37 9M32 25L45 13' fill='none' stroke='%23141413' stroke-width='3.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='50' r='4.2' fill='%23c96442'/%3E%3C/svg%3E">
     <!-- 中文字体异步加载：Google Fonts 慢或连不上时不阻塞页面，先用本机宋体。 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,14 +16,13 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap"></noscript>
     <link rel="stylesheet" href="styles.css">
     <script>
-      // 语言：网址 ?lang=en 或 ?lang=zh > 上次手动切换的选择 > 浏览器语言（中文浏览器显示中文，其余显示英文）。
+      // 语言：网址 ?lang=en 或 ?lang=zh > 上次手动切换的选择 > 默认英文。
       // 入场动画每个会话只播放一次；网址加 ?intro 可以重看；系统要求减少动态效果时不播放。
       // 万一 main.js 没加载出来：2 秒后照常显示页面，8 秒后自动揭开主页。
       (() => {
         const html = document.documentElement, q = new URLSearchParams(location.search);
         const read = (store, key) => { try { return store.getItem(key); } catch (e) { return null; } };
-        const lang = /^(en|zh)$/.test(q.get('lang')) ? q.get('lang')
-          : read(localStorage, 'lang') || (/^zh/i.test(navigator.language) ? 'zh' : 'en');
+        const lang = /^(en|zh)$/.test(q.get('lang')) ? q.get('lang') : read(localStorage, 'lang') || 'en';
         if (lang === 'en') {
           html.lang = 'en';
           html.classList.add('i18n-pending');
