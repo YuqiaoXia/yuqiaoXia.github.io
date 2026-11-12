@@ -3,10 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Personal homepage of Yuqiao Xia (夏渝乔), a Computer Science and Technology student at Southwest University.">
+    <meta name="description" content="Yuqiao Xia (夏渝乔) is an undergraduate at Southwest University working on projection mapping, projector–camera systems and generative image editing.">
     <meta name="author" content="夏渝乔">
     <meta name="color-scheme" content="light">
     <meta name="theme-color" content="#faf9f5">
+    <!-- 链接分享到聊天或社交平台时显示的标题、简介和配图。 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Yuqiao Xia | 夏渝乔">
+    <meta property="og:description" content="Undergraduate at Southwest University working on projection mapping, projector–camera systems and generative image editing.">
+    <meta property="og:image" content="https://yuqiaoxia.github.io/assets/sredit-prompt.jpg">
     <title>Yuqiao Xia | 夏渝乔</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23faf9f5'/%3E%3Cpath d='M32 48V25M32 25L19 13M32 25L27 9M32 25L37 9M32 25L45 13' fill='none' stroke='%23141413' stroke-width='3.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='50' r='4.2' fill='%23c96442'/%3E%3C/svg%3E">
     <!-- 中文字体异步加载：Google Fonts 慢或连不上时不阻塞页面，先用本机宋体。 -->
@@ -37,8 +42,8 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <!-- 中英双语：中文写在元素里，英文写在 data-en（文字）、data-en-label（aria-label）、data-en-title（title）里，
-         由 main.js 切换。class="alt" 是另一种语言的副标题：中文页面显示英文，英文页面显示中文。 -->
+    <!-- 中英双语：中文写在元素里，英文写在 data-en（文字）、data-en-label（aria-label）、data-en-title（title）、
+         data-en-alt（图片说明）里，由 main.js 切换。class="alt" 是另一种语言的副标题：中文页面显示英文，英文页面显示中文。 -->
 
     <!-- 入场动画（逐帧手绘 / 线条沸腾），由 main.js 驱动：画面按每秒 12 帧逐帧跳动，线条用变宽笔刷画出并持续轻微抖动。
          点击、按键或滚动都可以跳过；揭开主页后，右上角的种子飘落下来。 -->
@@ -61,9 +66,8 @@
         <a class="site-name" href="#top" lang="en">Yuqiao Xia</a>
         <nav aria-label="主导航" data-en-label="Main navigation">
           <a href="#about" data-en="About">关于</a>
-          <a href="#research" data-en="Research">研究</a>
           <a href="#publications" data-en="Publications">论文</a>
-          <a href="#projects" data-en="Projects">项目</a>
+          <a href="#education" data-en="Education">教育</a>
         </nav>
         <button class="lang-toggle" type="button" aria-label="切换到英文" data-en-label="Switch to Chinese"
                 title="切换到英文" data-en-title="Switch to Chinese">
@@ -87,12 +91,11 @@
         </button>
 
         <div class="hero-intro">
-          <p class="lede" data-en="Computer Science and Technology student at Southwest University. Here I document my studies, research and projects.">西南大学计算机科学与技术专业学生。这里记录我的学习、研究与项目实践。</p>
+          <p class="lede" data-en="Undergraduate at Southwest University. I work on projection mapping: using generative models and projected light to change how real objects look.">西南大学计算机科学与技术专业本科生，研究投影映射：用生成模型和投影光，改变真实物体的外观。</p>
           <ul class="links" aria-label="个人链接" data-en-label="Personal links">
+            <li><a href="mailto:swuxyq@gmail.com" data-en="Email">邮箱</a></li>
             <li><a href="https://github.com/YuqiaoXia">GitHub<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"/></svg></a></li>
-            <!-- 补充真实邮箱后取消注释：
-            <li><a href="mailto:you@example.com" data-en="Email">邮箱</a></li>
-            -->
+            <!-- 有了 Google Scholar 主页或在线简历后，照上一行的格式加在这里。 -->
           </ul>
         </div>
       </section>
@@ -101,8 +104,51 @@
         <section class="row" id="about" aria-labelledby="about-title">
           <h2 id="about-title"><span data-en="About">关于</span><span class="alt" lang="en" data-en="关于">About</span></h2>
           <div class="body">
-            <p data-en="Hi, I'm Yuqiao Xia, a Computer Science and Technology student at Southwest University.">你好，我是夏渝乔，就读于西南大学计算机科学与技术专业。</p>
-            <p data-en="I'll keep updating this page with my research interests, publications and projects.">这个页面会持续更新我的研究方向、论文和项目。</p>
+            <p data-en="Hi, I'm Yuqiao Xia. I study Computer Science and Technology at Southwest University in Chongqing, China.">你好，我是夏渝乔，在重庆的西南大学读计算机科学与技术。</p>
+            <p data-en="My research is on projection mapping and projector–camera systems (ProCams). Right now I'm mostly interested in bringing generative image editing to real objects, so that an edited appearance is something a projector can actually reproduce on the surface.">我的研究方向是投影映射与投影仪–相机系统（ProCams）。目前主要关注怎样把生成式图像编辑用到真实物体上，让编辑出来的外观能被投影仪如实复现。</p>
+            <ul class="tags" aria-label="研究兴趣" data-en-label="Research interests">
+              <li data-en="Projection mapping">投影映射</li>
+              <li data-en="Spatial augmented reality">空间增强现实</li>
+              <li data-en="Projector–camera systems">投影仪–相机系统</li>
+              <li data-en="Image editing">图像编辑</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="row" id="publications" aria-labelledby="publications-title">
+          <h2 id="publications-title"><span data-en="Publications">论文</span><span class="alt" lang="en" data-en="论文">Publications</span></h2>
+          <div class="body">
+            <!-- 新增论文：复制下面整个 <article class="entry paper">…</article>，改掉图片、标题、作者、简介、链接和 BibTeX；
+                 BibTeX 按钮的 aria-controls 要和 <pre> 的 id 一致。没有配图时删掉 <figure> 那一段即可。 -->
+            <article class="entry paper">
+              <figure class="paper-figure">
+                <a class="paper-shots" href="https://arxiv.org/abs/2610.32792" aria-label="在 arXiv 上阅读 SREdit" data-en-label="Read SREdit on arXiv">
+                  <img src="assets/sredit-prompt.jpg" width="1090" height="836" decoding="async"
+                       alt="同一个手办的六张投影实拍照片，外观按文字指令分别变成青花瓷、水墨、彩绘木雕、热带风、森林精灵和万圣节风格。"
+                       data-en-alt="Six camera-captured photos of one figurine whose appearance is changed by projection to follow text prompts: blue porcelain, ink wash, painted wood, tropical, forest elf and Halloween styles.">
+                  <img src="assets/sredit-reference.jpg" width="1088" height="836" decoding="async"
+                       alt="同一个手办的六张投影实拍照片，按参考图分别更换了妆容、材质和服装。"
+                       data-en-alt="Six camera-captured photos of the same figurine edited by projection to follow reference images for makeup, material and clothing.">
+                </a>
+                <figcaption data-en="One figurine, twelve appearances. Every photo is a real projection captured by a camera; the first panel is edited from text prompts and the second from reference images.">同一个手办的十二种外观，每一张都是相机拍下的真实投影。第一组按文字指令编辑，第二组按参考图编辑。</figcaption>
+              </figure>
+              <h3 lang="en">SREdit: Scene Response Guided Appearance Editing for Projection Mapping</h3>
+              <p class="meta" lang="en"><strong>Yuqiao Xia</strong>, Yuchen Deng, Ziheng Chang, Bingyao Huang</p>
+              <p class="meta" data-en="arXiv preprint, 2026">arXiv 预印本，2026</p>
+              <p class="summary" data-en="Image editors have no measure of how a real surface responds to projected light, so their edits often can't be reproduced by a projector. SREdit estimates a scene response map from the reconstructed scene and uses it to steer the early sampling steps of a frozen editor, deciding how much each surface region may change. It needs no training or extra control module and adds under a second per image.">图像编辑模型不知道真实表面对投影光的响应，生成的外观常常投不出来。SREdit 从重建的场景中估计一张场景响应图，在采样早期引导冻结的编辑模型，按响应强弱决定各区域能改多少。不需要训练，也不加控制模块，每张图只多花不到一秒。</p>
+              <p class="entry-links" lang="en">
+                <a href="https://arxiv.org/abs/2610.32792">arXiv</a>
+                <a href="https://arxiv.org/pdf/2610.32792">PDF</a>
+                <button class="bib-toggle" type="button" aria-expanded="false" aria-controls="bib-sredit">BibTeX</button>
+              </p>
+              <pre class="bibtex" id="bib-sredit" lang="en" hidden>@article{xia2026sredit,
+  title   = {{SREdit}: Scene Response Guided Appearance Editing
+             for Projection Mapping},
+  author  = {Xia, Yuqiao and Deng, Yuchen and Chang, Ziheng and Huang, Bingyao},
+  journal = {arXiv preprint arXiv:2610.32792},
+  year    = {2026}
+}</pre>
+            </article>
           </div>
         </section>
 
@@ -112,54 +158,30 @@
             <article class="entry">
               <h3 data-en="Southwest University">西南大学</h3>
               <p class="entry-en alt" lang="en" data-en="西南大学">Southwest University</p>
-              <p data-en="Computer Science and Technology">计算机科学与技术</p>
-              <!-- 补充学位与年份，例如：<p class="meta" data-en="B.Eng., 20XX – present">本科，20XX 年至今</p> -->
+              <p data-en="Undergraduate, Computer Science and Technology">计算机科学与技术，本科</p>
+              <p class="meta" data-en="College of Computer and Information Science · 2024 – present">计算机与信息科学学院 · 软件学院，2024 年至今</p>
             </article>
           </div>
         </section>
 
-        <section class="row" id="research" aria-labelledby="research-title">
-          <h2 id="research-title"><span data-en="Research">研究方向</span><span class="alt" lang="en" data-en="研究方向">Research</span></h2>
-          <div class="body">
-            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
-            <!-- 用真实研究兴趣替换上一行，可写方向名称与一两句说明；英文写在 data-en 里。 -->
-          </div>
-        </section>
-
-        <section class="row" id="publications" aria-labelledby="publications-title">
-          <h2 id="publications-title"><span data-en="Publications">论文</span><span class="alt" lang="en" data-en="论文">Publications</span></h2>
-          <div class="body">
-            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
-            <!-- 论文格式示例：
-            <article class="entry">
-              <h3>论文标题</h3>
-              <p class="meta"><strong>Yuqiao Xia</strong>, 合作者</p>
-              <p class="meta" data-en="Venue, year">会议或期刊，年份</p>
-              <p class="entry-links"><a href="#" data-en="Paper">论文</a><a href="#" data-en="Code">代码</a></p>
-            </article>
-            -->
-          </div>
-        </section>
-
+        <!-- 以后有想放的项目，取消下面的注释，并在页头导航里加一行 <a href="#projects" data-en="Projects">项目</a>。
         <section class="row" id="projects" aria-labelledby="projects-title">
           <h2 id="projects-title"><span data-en="Projects">项目</span><span class="alt" lang="en" data-en="项目">Projects</span></h2>
           <div class="body">
-            <p class="pending" data-en="Coming soon.">正在整理，稍后更新。</p>
-            <!-- 项目格式示例：
             <article class="entry">
               <h3 data-en="Project name">项目名称</h3>
               <p data-en="What problem it solves and which part I built.">解决了什么问题，我负责哪部分。</p>
               <p class="entry-links"><a href="#" data-en="Code">代码</a></p>
             </article>
-            -->
           </div>
         </section>
+        -->
       </div>
     </main>
 
     <footer class="wrap">
       <div class="site-footer">
-        <span data-en="© 2026 Yuqiao Xia">© 2026 夏渝乔</span>
+        <span data-en="© 2026 Yuqiao Xia · Updated November 2026">© 2026 夏渝乔 · 2026 年 11 月更新</span>
         <a href="#top" data-en="Back to top">返回顶部</a>
       </div>
     </footer>

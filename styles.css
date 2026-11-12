@@ -13,6 +13,8 @@
   --latin: "Palatino Linotype", Palatino, "Book Antiqua", "TeX Gyre Pagella", Georgia;
   --cjk: "Noto Serif SC", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", SimSun, STSong;
   --serif: var(--latin), var(--cjk), serif;
+  /* 等宽字体只用在论文的资源链接和 BibTeX 上，给衬线正文配一点技术感。 */
+  --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, var(--cjk), monospace;
 
   --measure: 36rem;
   --wrap: 60rem;
@@ -102,17 +104,21 @@ h1 {
   color: var(--muted);
 }
 .lede {
-  max-width: 40rem;
+  max-width: 44rem;
   margin: 2.25rem 0 0;
   font-size: 1.1875rem;
   line-height: 1.85;
   text-wrap: balance;
 }
+/* 宽屏上中文首屏简介只在标点处换行，不把“投影映射”这样的词拆到两行；窄屏一行放不下半句，照常换行。 */
+@media (min-width: 761px) {
+  html:not([lang="en"]) .lede { word-break: keep-all; }
+}
 .links { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 1.25rem 0 0; padding: 0; }
 .links svg { width: .65em; height: .65em; margin-left: .2em; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 
-/* 链接：陶土色文字加细下划线。 */
-.links a, .body a {
+/* 链接：陶土色文字加细下划线。BibTeX 按钮和链接长得一样。 */
+.links a, .body a, .bib-toggle {
   color: var(--clay);
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--clay) 35%, transparent);
@@ -120,7 +126,7 @@ h1 {
   text-underline-offset: .22em;
   transition: text-decoration-color .15s;
 }
-.links a:hover, .body a:hover { text-decoration-color: currentColor; }
+.links a:hover, .body a:hover, .bib-toggle:hover { text-decoration-color: currentColor; }
 
 /* 右上角：开场被吹走的那颗陶土色种子，揭开主页后飘落在这里；由 main.js 用笔刷画出并控制飘动。
    种子会从画框外飘进来，所以 svg 不裁切溢出。 */
@@ -139,13 +145,15 @@ h1 {
 
 /* ---------- Content rows ---------- */
 .content { padding-bottom: 4rem; }
+/* 右栏占满剩余宽度：文字仍按 --measure 控制行宽，论文配图可以比文字更宽。 */
 .row {
   display: grid;
-  grid-template-columns: 11rem minmax(0, var(--measure));
+  grid-template-columns: 11rem minmax(0, 1fr);
   gap: 2.5rem;
   padding: 2.5rem 0;
   border-top: 1px solid var(--line);
 }
+.body :is(p, ul, h3, figcaption) { max-width: var(--measure); }
 h2 {
   margin: 0;
   font-size: 1.125rem;
@@ -171,10 +179,44 @@ h2 .alt {
 h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
 .entry-en { font-style: italic; color: var(--muted); line-height: 1.5; margin-bottom: .5rem !important; }
 .meta { color: var(--muted); }
-.entry-links { display: flex; gap: 1.25rem; font-size: .9375rem; }
+.entry-links {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem 1.25rem;
+  font-family: var(--mono); font-size: .8125rem; letter-spacing: .01em;
+}
 
 .pending { color: var(--faint); }
 .pending::before { content: ""; display: inline-block; width: 1.25rem; height: 1px; margin-right: .75rem; vertical-align: middle; background: var(--line); }
+
+/* 研究兴趣：一行关键词，用间隔点分开，和简历的联系方式是同一种写法。 */
+.body .tags {
+  list-style: none; display: flex; flex-wrap: wrap;
+  max-width: none; margin: 1.1rem 0 0; padding: 0;
+  font-size: .9375rem; color: var(--muted);
+}
+.tags li:not(:last-child)::after { content: "·"; margin-inline: .6em; color: var(--faint); }
+
+/* ---------- 论文 ---------- */
+/* 配图是论文里相机实拍的投影：两组照片并排（窄屏上下排）。这是整页唯一的大块深色，
+   鼠标移上去画面会亮一点，像投影仪调亮了。 */
+.paper-figure { margin: 0 0 1.5rem; }
+.paper-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 3px; overflow: hidden; }
+.paper-shots img { display: block; width: 100%; height: auto; background: #111; transition: filter .25s; }
+.paper-shots:hover img { filter: brightness(1.14); }
+.paper-figure figcaption { margin-top: .7rem; font-size: .875rem; line-height: 1.65; color: var(--faint); }
+.paper h3 { font-size: 1.1875rem; line-height: 1.45; text-wrap: balance; }
+.paper .meta { margin: .3rem 0 0; line-height: 1.6; }
+.paper .meta strong { font-weight: 600; color: var(--ink); }
+.paper .summary { margin: .85rem 0 .9rem; }
+
+.bib-toggle { padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; cursor: pointer; }
+.bib-toggle:focus-visible { outline: 1px solid var(--clay); outline-offset: 3px; }
+.bibtex {
+  margin: .9rem 0 0; padding: .85rem 1rem;
+  border: 1px solid var(--line); border-radius: 3px;
+  background: color-mix(in srgb, var(--line) 20%, transparent);
+  font-family: var(--mono); font-size: .78rem; line-height: 1.65; color: var(--muted);
+  overflow-x: auto;
+}
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -226,6 +268,9 @@ html.intro .intro-screen, .intro-screen.leaving {
 /* ---------- 英文页面 ---------- */
 /* 大标题改用 Palatino 常规字重、收紧字距；副标题（.alt）换成中文，不用斜体。 */
 html.i18n-pending body { visibility: hidden; }
+/* 西文不需要中文那么大的行距。 */
+html[lang="en"] body { line-height: 1.75; }
+html[lang="en"] .lede { line-height: 1.7; }
 html[lang="en"] h1 { font-weight: 400; font-size: clamp(2.6rem, 8vw, 5rem); letter-spacing: .01em; }
 html[lang="en"] h2, html[lang="en"] nav a { letter-spacing: .02em; }
 html[lang="en"] .alt { font-style: normal; letter-spacing: .08em; }
@@ -239,6 +284,7 @@ html[lang="en"] .intro-name em { letter-spacing: .2em; }
   .site-name { margin-right: auto; }
   .lang-toggle { border-left: 0; padding-left: 0; }
   nav { order: 3; width: 100%; margin-left: 0; }
+  .paper-shots { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
   .wrap { padding-inline: 1.25rem; }
@@ -261,7 +307,7 @@ html[lang="en"] .intro-name em { letter-spacing: .2em; }
 }
 
 @media print {
-  .site-header, .skip-link, .links, .site-footer a, .intro-screen { display: none; }
+  .site-header, .skip-link, .links, .site-footer a, .intro-screen, .bib-toggle { display: none; }
   body { background: #fff; }
   .hero { padding-top: 0; }
   .row { break-inside: avoid; }

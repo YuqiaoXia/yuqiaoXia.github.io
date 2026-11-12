@@ -20,10 +20,12 @@
 
   // ---------- 中英切换 ----------
   // 中文写在元素里，英文写在 data-en（文字）、data-en-label（aria-label）、data-en-title（title）、
-  // data-en-content（meta）里；第一次切换前把中文原文存进对应的 data-zh*。.alt 是另一种语言的副标题。
+  // data-en-content（meta）、data-en-alt（图片说明）里；第一次切换前把中文原文存进对应的 data-zh*。
+  // .alt 是另一种语言的副标题。
   const i18n = () => {
     const swaps = [['[data-en]', null, 'en', 'zh'], ['[data-en-label]', 'aria-label', 'enLabel', 'zhLabel'],
-      ['[data-en-title]', 'title', 'enTitle', 'zhTitle'], ['[data-en-content]', 'content', 'enContent', 'zhContent']];
+      ['[data-en-title]', 'title', 'enTitle', 'zhTitle'], ['[data-en-content]', 'content', 'enContent', 'zhContent'],
+      ['[data-en-alt]', 'alt', 'enAlt', 'zhAlt']];
     const apply = lang => {
       const en = lang === 'en';
       root.lang = en ? 'en' : 'zh-CN';
@@ -254,7 +256,20 @@
     };
   };
 
+  // ---------- BibTeX ----------
+  // 论文条目里的 BibTeX 按钮：点一下展开对应的引用文本，再点一下收起。
+  const bibtex = () => {
+    for (const btn of document.querySelectorAll('.bib-toggle')) {
+      const box = document.getElementById(btn.getAttribute('aria-controls'));
+      if (box) btn.addEventListener('click', () => {
+        box.hidden = !box.hidden;
+        btn.setAttribute('aria-expanded', String(!box.hidden));
+      });
+    }
+  };
+
   i18n();
+  bibtex();
   const startSeed = landingSeed();
   intro(played => startSeed(played ? 600 : 300));
 })();
