@@ -201,15 +201,10 @@ h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
 .tags li::before { content: "·"; position: absolute; left: -.8em; color: var(--faint); }
 
 /* ---------- 论文 ---------- */
-/* 配图读作“输入 → 编辑结果”：原物体、文字引导编辑、参考图引导编辑，三张图并排（窄屏上下排）。
-   列宽按图片的原始宽度分配，所以三张图总是一样高。宽屏时整幅图向左伸进标题栏、占满版心，图注仍和正文对齐。
-   这是整页唯一的大块深色，鼠标移上去画面会亮一点，像投影仪调亮了。 */
+/* 配图是文字引导和参考图引导的两组编辑结果，并排（窄屏上下排）。宽屏时整幅图向左伸进标题栏、占满版心，
+   图注仍和正文对齐。这是整页唯一的大块深色，鼠标移上去画面会亮一点，像投影仪调亮了。 */
 .paper-figure { margin: 1.5rem 0 1.6rem calc(-1 * (var(--label) + var(--gutter))); }
-.paper-shots {
-  display: grid; grid-template-columns: minmax(0, 720fr) minmax(0, 1600fr) minmax(0, 1600fr); gap: 3px;
-  border-radius: 3px; overflow: hidden;
-}
-.paper-shots picture { display: block; }
+.paper-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 3px; overflow: hidden; }
 .paper-shots img { display: block; width: 100%; height: auto; background: #111; transition: filter .25s; }
 .paper-shots:hover img { filter: brightness(1.14); }
 .paper-figure figcaption {

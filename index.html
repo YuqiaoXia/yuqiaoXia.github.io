@@ -125,16 +125,9 @@
               <p class="meta" lang="en"><strong>Yuqiao Xia</strong>, Yuchen Deng, Ziheng Chang, Bingyao Huang</p>
               <p class="meta" data-en="arXiv preprint, 2026">arXiv 预印本，2026</p>
               <p class="takeaway" data-en="Training-free sampling control that makes a pretrained image editor's output reproducible on a real object.">免训练的采样控制，让预训练图像编辑模型的结果能在真实物体上复现。</p>
-              <!-- 配图读作“输入 → 编辑结果”：原物体，然后是文字引导和参考图引导的两组编辑。三张图都由论文 Fig. 1 的原始素材合成，
-                   高度相同，宽屏并排；窄屏上下排，原物体换成和另外两张同样比例的宽版。宽屏时整幅图向左伸进标题栏，占满版心。 -->
+              <!-- 配图是文字引导和参考图引导的两组编辑结果，由论文 Fig. 1 的原始素材合成。宽屏并排，并向左伸进标题栏、占满版心；窄屏上下排。 -->
               <figure class="paper-figure">
                 <a class="paper-shots" href="https://arxiv.org/abs/2610.32792" aria-label="在 arXiv 上阅读 SREdit" data-en-label="Read SREdit on arXiv">
-                  <picture>
-                    <source media="(max-width: 600px)" srcset="assets/sredit-source-wide.jpg" width="1600" height="1231">
-                    <img src="assets/sredit-source.jpg" width="720" height="1231" decoding="async"
-                         alt="编辑之前的原物体：一个浅色手办的实拍照片。"
-                         data-en-alt="The source object before editing: a photo of a pale figurine.">
-                  </picture>
                   <img src="assets/sredit-prompt.jpg" width="1600" height="1231" decoding="async"
                        alt="同一个手办的六张实拍照片，外观按文字指令分别编辑成青花瓷、水墨、彩绘木雕、热带风、森林精灵和万圣节风格。"
                        data-en-alt="Six photos of the same figurine with its appearance edited from text prompts: blue porcelain, ink wash, painted wood, tropical, forest elf and Halloween styles.">
@@ -142,9 +135,10 @@
                        alt="同一个手办的六张实拍照片，按参考图分别编辑了妆容、材质和服装。"
                        data-en-alt="Six photos of the same figurine edited to follow reference images for makeup, material and clothing.">
                 </a>
-                <figcaption data-en="One figurine and its text-guided and reference-guided edits. Each edited photo shows the result on the real object, displayed by a projector and captured by a camera.">同一个手办和它的文字引导编辑、参考图引导编辑。每张编辑后的照片，都是结果由投影仪呈现在实物上之后，相机拍下来的。</figcaption>
+                <figcaption data-en="Text-guided and reference-guided edits of one figurine. Each photo shows the edit on the real object, displayed by a projector and captured by a camera.">同一个手办的文字引导编辑和参考图引导编辑。每张照片都是编辑结果由投影仪呈现在实物上之后，相机拍下来的。</figcaption>
               </figure>
-              <p class="summary" data-en="Pretrained editors such as Qwen-Image-Edit can restyle an object from a text prompt or a reference image, but they know nothing about the physical object the edit will be shown on, so the result is often misaligned with it or impossible to reproduce. SREdit changes only the sampling of the frozen editor: a map of how strongly each surface region can change decides how firmly the early steps stay anchored to the source image. No training, no control module, no backpropagation through the editor, and under a second of extra time per image.">Qwen-Image-Edit 这类预训练编辑模型可以按一句文字或一张参考图改变物体的外观，但它们不了解结果最终要呈现在哪个真实物体上，所以常常和实物对不上，或者根本呈现不出来。SREdit 只改动冻结模型的采样过程：用一张响应图描述物体表面各区域能被改变多少，据此决定采样早期向源图像靠拢的强度。不训练、不加控制模块、不对模型反向传播，每张图只多花不到一秒。</p>
+              <!-- 简介按论文摘要的说法写，改动时请对照原文。 -->
+              <p class="summary" data-en="Pretrained image editors such as Qwen-Image-Edit can produce a desired appearance from a text prompt or a reference image, and projector compensation can then try to reproduce it through projection. But these editors have no accurate measure of the scene geometry or the scene response, so their outputs may contain geometric misalignment, inconsistent shading, or changes outside the available projection range, which downstream compensation cannot correct. SREdit estimates a scene response map from the reconstructed scene that reflects how strongly projected light can affect different surface regions. It uses the source appearance to constrain early sampling and keep the edit registered with the physical object, while the response map adapts the amount of editing across regions. It needs no additional training or control module and adds less than one second per image.">Qwen-Image-Edit 这类预训练图像编辑模型可以按文字指令或参考图生成想要的外观，再由投影补偿尝试通过投影把它复现出来。但这些模型对场景几何和场景响应没有准确的度量，输出里可能出现几何错位、明暗不一致，或超出投影可表达范围的变化，而下游的投影补偿无法修正这些问题。SREdit 从重建的场景中估计场景响应图，反映投影光对物体表面各区域的影响强度；在采样早期用源外观约束采样、保持与实物的配准，并由响应图调节各区域的编辑幅度。不需要额外训练或控制模块，每张图多耗时不到一秒。</p>
               <ul class="tags" aria-label="主要结果" data-en-label="Key results">
                 <li data-en="+4.8–5.9 dB PSNR over native sampling">相比原生采样 PSNR 提升 4.8–5.9 dB</li>
                 <li data-en="2 editors, 6 real setups">2 个编辑模型、6 套真实装置</li>
