@@ -18,6 +18,8 @@
 
   --measure: 36rem;
   --wrap: 60rem;
+  --label: 11rem;    /* 左侧标题栏的宽度 */
+  --gutter: 2.5rem;  /* 标题栏和正文之间的间距 */
   color-scheme: light;
 }
 
@@ -148,8 +150,8 @@ h1 {
 /* 右栏占满剩余宽度：文字仍按 --measure 控制行宽，论文配图可以比文字更宽。 */
 .row {
   display: grid;
-  grid-template-columns: 11rem minmax(0, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: var(--label) minmax(0, 1fr);
+  gap: var(--gutter);
   padding: 2.5rem 0;
   border-top: 1px solid var(--line);
 }
@@ -187,26 +189,39 @@ h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
 .pending { color: var(--faint); }
 .pending::before { content: ""; display: inline-block; width: 1.25rem; height: 1px; margin-right: .75rem; vertical-align: middle; background: var(--line); }
 
-/* 研究兴趣：一行关键词，用间隔点分开，和简历的联系方式是同一种写法。 */
+/* 研究兴趣、论文的主要结果：一行短语，用间隔点分开，和简历的联系方式是同一种写法。
+   间隔点画在每一项的左侧外面，换行后落在行首的那个点会被 overflow 裁掉，所以行首行尾都不会多出一个点。 */
 .body .tags {
-  list-style: none; display: flex; flex-wrap: wrap;
+  list-style: none; display: flex; flex-wrap: wrap; overflow: hidden;
   max-width: none; margin: 1.1rem 0 0; padding: 0;
   font-size: .9375rem; color: var(--muted);
 }
-.tags li:not(:last-child)::after { content: "·"; margin-inline: .6em; color: var(--faint); }
+.tags li { position: relative; padding-right: 1.3em; }
+.tags li:last-child { padding-right: 0; }
+.tags li::before { content: "·"; position: absolute; left: -.8em; color: var(--faint); }
 
 /* ---------- 论文 ---------- */
-/* 配图是论文里相机实拍的投影：两组照片并排（窄屏上下排）。这是整页唯一的大块深色，
-   鼠标移上去画面会亮一点，像投影仪调亮了。 */
-.paper-figure { margin: 0 0 1.5rem; }
-.paper-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 3px; overflow: hidden; }
+/* 配图读作“输入 → 编辑结果”：原物体、文字引导编辑、参考图引导编辑，三张图并排（窄屏上下排）。
+   列宽按图片的原始宽度分配，所以三张图总是一样高。宽屏时整幅图向左伸进标题栏、占满版心，图注仍和正文对齐。
+   这是整页唯一的大块深色，鼠标移上去画面会亮一点，像投影仪调亮了。 */
+.paper-figure { margin: 1.5rem 0 1.6rem calc(-1 * (var(--label) + var(--gutter))); }
+.paper-shots {
+  display: grid; grid-template-columns: minmax(0, 720fr) minmax(0, 1600fr) minmax(0, 1600fr); gap: 3px;
+  border-radius: 3px; overflow: hidden;
+}
+.paper-shots picture { display: block; }
 .paper-shots img { display: block; width: 100%; height: auto; background: #111; transition: filter .25s; }
 .paper-shots:hover img { filter: brightness(1.14); }
-.paper-figure figcaption { margin-top: .7rem; font-size: .875rem; line-height: 1.65; color: var(--faint); }
+.paper-figure figcaption {
+  margin: .7rem 0 0 calc(var(--label) + var(--gutter));
+  font-size: .875rem; line-height: 1.65; color: var(--faint);
+}
 .paper h3 { font-size: 1.1875rem; line-height: 1.45; text-wrap: balance; }
 .paper .meta { margin: .3rem 0 0; line-height: 1.6; }
 .paper .meta strong { font-weight: 600; color: var(--ink); }
-.paper .summary { margin: .85rem 0 .9rem; }
+.paper .takeaway { margin: .85rem 0 0; }
+.paper .summary { margin: 0 0 .8rem; }
+.paper .tags { margin: 0 0 1rem; }
 
 .bib-toggle { padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; cursor: pointer; }
 .bib-toggle:focus-visible { outline: 1px solid var(--clay); outline-offset: 3px; }
@@ -293,6 +308,7 @@ html[lang="en"] .intro-name em { letter-spacing: .2em; }
   .hero { column-gap: 1.25rem; padding-top: 2.5rem; }
   .lede { margin-top: 1.75rem; }
   .row { grid-template-columns: 1fr; gap: .75rem; padding: 2.25rem 0; }
+  .paper-figure, .paper-figure figcaption { margin-left: 0; }
   h2 .alt { display: inline; margin-left: .6rem; }
 }
 @media (max-width: 380px) {

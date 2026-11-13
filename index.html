@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Yuqiao Xia (夏渝乔) is an undergraduate at Southwest University working on projection mapping, projector–camera systems and generative image editing.">
+    <meta name="description" content="Yuqiao Xia (夏渝乔) is an undergraduate at Southwest University working on generative image editing with diffusion and flow-matching models. First author of SREdit.">
     <meta name="author" content="夏渝乔">
     <meta name="color-scheme" content="light">
     <meta name="theme-color" content="#faf9f5">
     <!-- 链接分享到聊天或社交平台时显示的标题、简介和配图。 -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Yuqiao Xia | 夏渝乔">
-    <meta property="og:description" content="Undergraduate at Southwest University working on projection mapping, projector–camera systems and generative image editing.">
+    <meta property="og:title" content="Yuqiao Xia (夏渝乔) · Generative Image Editing">
+    <meta property="og:description" content="Undergraduate at Southwest University working on generative image editing with diffusion and flow-matching models. First author of SREdit.">
     <meta property="og:image" content="https://yuqiaoxia.github.io/assets/sredit-prompt.jpg">
-    <title>Yuqiao Xia | 夏渝乔</title>
+    <title>Yuqiao Xia (夏渝乔) · Generative Image Editing</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23faf9f5'/%3E%3Cpath d='M32 48V25M32 25L19 13M32 25L27 9M32 25L37 9M32 25L45 13' fill='none' stroke='%23141413' stroke-width='3.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='50' r='4.2' fill='%23c96442'/%3E%3C/svg%3E">
     <!-- 中文字体异步加载：Google Fonts 慢或连不上时不阻塞页面，先用本机宋体。 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,7 +91,7 @@
         </button>
 
         <div class="hero-intro">
-          <p class="lede" data-en="Undergraduate at Southwest University. I work on projection mapping: using generative models and projected light to change how real objects look.">西南大学计算机科学与技术专业本科生，研究投影映射：用生成模型和投影光，改变真实物体的外观。</p>
+          <p class="lede" data-en="Undergraduate at Southwest University. I work on generative image editing, and on carrying edits from the image onto real objects.">西南大学计算机科学与技术专业本科生，研究生成式图像编辑，关注编辑结果怎样从图像落到真实物体上。</p>
           <ul class="links" aria-label="个人链接" data-en-label="Personal links">
             <li><a href="mailto:swuxyq@gmail.com" data-en="Email">邮箱</a></li>
             <li><a href="https://github.com/YuqiaoXia">GitHub<svg aria-hidden="true" viewBox="0 0 12 12"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"/></svg></a></li>
@@ -105,12 +105,12 @@
           <h2 id="about-title"><span data-en="About">关于</span><span class="alt" lang="en" data-en="关于">About</span></h2>
           <div class="body">
             <p data-en="Hi, I'm Yuqiao Xia. I study Computer Science and Technology at Southwest University in Chongqing, China.">你好，我是夏渝乔，在重庆的西南大学读计算机科学与技术。</p>
-            <p data-en="My research is on projection mapping and projector–camera systems (ProCams). Right now I'm mostly interested in bringing generative image editing to real objects, so that an edited appearance is something a projector can actually reproduce on the surface.">我的研究方向是投影映射与投影仪–相机系统（ProCams）。目前主要关注怎样把生成式图像编辑用到真实物体上，让编辑出来的外观能被投影仪如实复现。</p>
+            <p data-en="My research is on generative image editing with diffusion and flow-matching models. I'm interested in controlling pretrained editors at sampling time, and in edits that must respect a real scene: its geometry, materials and lighting. My first paper, SREdit, studies this for edits displayed on physical objects with a projector.">我的研究方向是生成式图像编辑（扩散与流匹配模型）。我关注怎样在采样阶段控制预训练编辑模型，也关注编辑结果怎样满足真实场景的几何、材质和光照约束。第一篇论文 SREdit 研究的是用投影仪把编辑结果呈现在真实物体上的情形。</p>
             <ul class="tags" aria-label="研究兴趣" data-en-label="Research interests">
+              <li data-en="Generative image editing">生成式图像编辑</li>
+              <li data-en="Controllable generation">可控生成</li>
+              <li data-en="Diffusion &amp; flow-matching models">扩散与流匹配模型</li>
               <li data-en="Projection mapping">投影映射</li>
-              <li data-en="Spatial augmented reality">空间增强现实</li>
-              <li data-en="Projector–camera systems">投影仪–相机系统</li>
-              <li data-en="Image editing">图像编辑</li>
             </ul>
           </div>
         </section>
@@ -118,24 +118,38 @@
         <section class="row" id="publications" aria-labelledby="publications-title">
           <h2 id="publications-title"><span data-en="Publications">论文</span><span class="alt" lang="en" data-en="论文">Publications</span></h2>
           <div class="body">
-            <!-- 新增论文：复制下面整个 <article class="entry paper">…</article>，改掉图片、标题、作者、简介、链接和 BibTeX；
+            <!-- 新增论文：复制下面整个 <article class="entry paper">…</article>，改掉标题、作者、一句话结论、图片、简介、结果、链接和 BibTeX；
                  BibTeX 按钮的 aria-controls 要和 <pre> 的 id 一致。没有配图时删掉 <figure> 那一段即可。 -->
             <article class="entry paper">
-              <figure class="paper-figure">
-                <a class="paper-shots" href="https://arxiv.org/abs/2610.32792" aria-label="在 arXiv 上阅读 SREdit" data-en-label="Read SREdit on arXiv">
-                  <img src="assets/sredit-prompt.jpg" width="1090" height="836" decoding="async"
-                       alt="同一个手办的六张投影实拍照片，外观按文字指令分别变成青花瓷、水墨、彩绘木雕、热带风、森林精灵和万圣节风格。"
-                       data-en-alt="Six camera-captured photos of one figurine whose appearance is changed by projection to follow text prompts: blue porcelain, ink wash, painted wood, tropical, forest elf and Halloween styles.">
-                  <img src="assets/sredit-reference.jpg" width="1088" height="836" decoding="async"
-                       alt="同一个手办的六张投影实拍照片，按参考图分别更换了妆容、材质和服装。"
-                       data-en-alt="Six camera-captured photos of the same figurine edited by projection to follow reference images for makeup, material and clothing.">
-                </a>
-                <figcaption data-en="One figurine, twelve appearances. Every photo is a real projection captured by a camera; the first panel is edited from text prompts and the second from reference images.">同一个手办的十二种外观，每一张都是相机拍下的真实投影。第一组按文字指令编辑，第二组按参考图编辑。</figcaption>
-              </figure>
               <h3 lang="en">SREdit: Scene Response Guided Appearance Editing for Projection Mapping</h3>
               <p class="meta" lang="en"><strong>Yuqiao Xia</strong>, Yuchen Deng, Ziheng Chang, Bingyao Huang</p>
               <p class="meta" data-en="arXiv preprint, 2026">arXiv 预印本，2026</p>
-              <p class="summary" data-en="Image editors have no measure of how a real surface responds to projected light, so their edits often can't be reproduced by a projector. SREdit estimates a scene response map from the reconstructed scene and uses it to steer the early sampling steps of a frozen editor, deciding how much each surface region may change. It needs no training or extra control module and adds under a second per image.">图像编辑模型不知道真实表面对投影光的响应，生成的外观常常投不出来。SREdit 从重建的场景中估计一张场景响应图，在采样早期引导冻结的编辑模型，按响应强弱决定各区域能改多少。不需要训练，也不加控制模块，每张图只多花不到一秒。</p>
+              <p class="takeaway" data-en="Training-free sampling control that makes a pretrained image editor's output reproducible on a real object.">免训练的采样控制，让预训练图像编辑模型的结果能在真实物体上复现。</p>
+              <!-- 配图读作“输入 → 编辑结果”：原物体，然后是文字引导和参考图引导的两组编辑。三张图都由论文 Fig. 1 的原始素材合成，
+                   高度相同，宽屏并排；窄屏上下排，原物体换成和另外两张同样比例的宽版。宽屏时整幅图向左伸进标题栏，占满版心。 -->
+              <figure class="paper-figure">
+                <a class="paper-shots" href="https://arxiv.org/abs/2610.32792" aria-label="在 arXiv 上阅读 SREdit" data-en-label="Read SREdit on arXiv">
+                  <picture>
+                    <source media="(max-width: 600px)" srcset="assets/sredit-source-wide.jpg" width="1600" height="1231">
+                    <img src="assets/sredit-source.jpg" width="720" height="1231" decoding="async"
+                         alt="编辑之前的原物体：一个浅色手办的实拍照片。"
+                         data-en-alt="The source object before editing: a photo of a pale figurine.">
+                  </picture>
+                  <img src="assets/sredit-prompt.jpg" width="1600" height="1231" decoding="async"
+                       alt="同一个手办的六张实拍照片，外观按文字指令分别编辑成青花瓷、水墨、彩绘木雕、热带风、森林精灵和万圣节风格。"
+                       data-en-alt="Six photos of the same figurine with its appearance edited from text prompts: blue porcelain, ink wash, painted wood, tropical, forest elf and Halloween styles.">
+                  <img src="assets/sredit-reference.jpg" width="1600" height="1231" decoding="async"
+                       alt="同一个手办的六张实拍照片，按参考图分别编辑了妆容、材质和服装。"
+                       data-en-alt="Six photos of the same figurine edited to follow reference images for makeup, material and clothing.">
+                </a>
+                <figcaption data-en="One figurine and its text-guided and reference-guided edits. Each edited photo shows the result on the real object, displayed by a projector and captured by a camera.">同一个手办和它的文字引导编辑、参考图引导编辑。每张编辑后的照片，都是结果由投影仪呈现在实物上之后，相机拍下来的。</figcaption>
+              </figure>
+              <p class="summary" data-en="Pretrained editors such as Qwen-Image-Edit can restyle an object from a text prompt or a reference image, but they know nothing about the physical object the edit will be shown on, so the result is often misaligned with it or impossible to reproduce. SREdit changes only the sampling of the frozen editor: a map of how strongly each surface region can change decides how firmly the early steps stay anchored to the source image. No training, no control module, no backpropagation through the editor, and under a second of extra time per image.">Qwen-Image-Edit 这类预训练编辑模型可以按一句文字或一张参考图改变物体的外观，但它们不了解结果最终要呈现在哪个真实物体上，所以常常和实物对不上，或者根本呈现不出来。SREdit 只改动冻结模型的采样过程：用一张响应图描述物体表面各区域能被改变多少，据此决定采样早期向源图像靠拢的强度。不训练、不加控制模块、不对模型反向传播，每张图只多花不到一秒。</p>
+              <ul class="tags" aria-label="主要结果" data-en-label="Key results">
+                <li data-en="+4.8–5.9 dB PSNR over native sampling">相比原生采样 PSNR 提升 4.8–5.9 dB</li>
+                <li data-en="2 editors, 6 real setups">2 个编辑模型、6 套真实装置</li>
+                <li data-en="72.4% user-study preference">用户研究偏好率 72.4%</li>
+              </ul>
               <p class="entry-links" lang="en">
                 <a href="https://arxiv.org/abs/2610.32792">arXiv</a>
                 <a href="https://arxiv.org/pdf/2610.32792">PDF</a>
