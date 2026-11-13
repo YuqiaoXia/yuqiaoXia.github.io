@@ -16,10 +16,7 @@
   /* 等宽字体只用在论文的资源链接和 BibTeX 上，给衬线正文配一点技术感。 */
   --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, var(--cjk), monospace;
 
-  --measure: 36rem;
   --wrap: 60rem;
-  --label: 11rem;    /* 左侧标题栏的宽度 */
-  --gutter: 2.5rem;  /* 标题栏和正文之间的间距 */
   color-scheme: light;
 }
 
@@ -147,15 +144,14 @@ h1 {
 
 /* ---------- Content rows ---------- */
 .content { padding-bottom: 4rem; }
-/* 右栏占满剩余宽度：文字仍按 --measure 控制行宽，论文配图可以比文字更宽。 */
+/* 左边是栏目标题，右栏占满剩余宽度。右栏里的文字和论文配图一样宽，左右两边都对齐。 */
 .row {
   display: grid;
-  grid-template-columns: var(--label) minmax(0, 1fr);
-  gap: var(--gutter);
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 2.5rem;
   padding: 2.5rem 0;
   border-top: 1px solid var(--line);
 }
-.body :is(p, ul, h3, figcaption) { max-width: var(--measure); }
 h2 {
   margin: 0;
   font-size: 1.125rem;
@@ -193,7 +189,7 @@ h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
    间隔点画在每一项的左侧外面，换行后落在行首的那个点会被 overflow 裁掉，所以行首行尾都不会多出一个点。 */
 .body .tags {
   list-style: none; display: flex; flex-wrap: wrap; overflow: hidden;
-  max-width: none; margin: 1.1rem 0 0; padding: 0;
+  margin: 1.1rem 0 0; padding: 0;
   font-size: .9375rem; color: var(--muted);
 }
 .tags li { position: relative; padding-right: 1.3em; }
@@ -201,16 +197,13 @@ h3 { margin: 0; font-size: 1.125rem; font-weight: 600; line-height: 1.6; }
 .tags li::before { content: "·"; position: absolute; left: -.8em; color: var(--faint); }
 
 /* ---------- 论文 ---------- */
-/* 配图是文字引导和参考图引导的两组编辑结果，并排（窄屏上下排）。宽屏时整幅图向左伸进标题栏、占满版心，
-   图注仍和正文对齐。这是整页唯一的大块深色，鼠标移上去画面会亮一点，像投影仪调亮了。 */
-.paper-figure { margin: 1.5rem 0 1.6rem calc(-1 * (var(--label) + var(--gutter))); }
+/* 配图是文字引导和参考图引导的两组编辑结果，并排（窄屏上下排），和正文一样宽。
+   这是整页唯一的大块深色，鼠标移上去画面会亮一点，像投影仪调亮了。 */
+.paper-figure { margin: 1.5rem 0 1.6rem; }
 .paper-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; border-radius: 3px; overflow: hidden; }
 .paper-shots img { display: block; width: 100%; height: auto; background: #111; transition: filter .25s; }
 .paper-shots:hover img { filter: brightness(1.14); }
-.paper-figure figcaption {
-  margin: .7rem 0 0 calc(var(--label) + var(--gutter));
-  font-size: .875rem; line-height: 1.65; color: var(--faint);
-}
+.paper-figure figcaption { margin-top: .7rem; font-size: .875rem; line-height: 1.65; color: var(--faint); }
 .paper h3 { font-size: 1.1875rem; line-height: 1.45; text-wrap: balance; }
 .paper .meta { margin: .3rem 0 0; line-height: 1.6; }
 .paper .meta strong { font-weight: 600; color: var(--ink); }
@@ -303,7 +296,6 @@ html[lang="en"] .intro-name em { letter-spacing: .2em; }
   .hero { column-gap: 1.25rem; padding-top: 2.5rem; }
   .lede { margin-top: 1.75rem; }
   .row { grid-template-columns: 1fr; gap: .75rem; padding: 2.25rem 0; }
-  .paper-figure, .paper-figure figcaption { margin-left: 0; }
   h2 .alt { display: inline; margin-left: .6rem; }
 }
 @media (max-width: 380px) {
